@@ -17,7 +17,7 @@ const connectDb = async (dbUrl: string) => {
         return ret;
       },
     });
-  } catch (error: unknown) {
+  } catch {
     debug(chalk.redBright(`Error on database connection`));
   }
 };
