@@ -7,7 +7,7 @@ const debug = debugCreator("social:database");
 const connectDb = async (dbUrl: string) => {
   try {
     await mongoose.connect(dbUrl);
-    debug(chalk.green("Connection to database was successfull"));
+    debug(chalk.yellowBright("Connection to database was successfull"));
     mongoose.set("toJSON", {
       virtuals: true,
       transform(doc, ret) {
