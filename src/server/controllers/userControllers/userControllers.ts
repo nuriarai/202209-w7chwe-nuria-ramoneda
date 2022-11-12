@@ -25,11 +25,16 @@ export const registerUser = async (
       .status(201)
       .json({ user: { id: newUser._id, username, email, picture } });
   } catch (error: unknown) {
-    const customError = new CustomError(
-      (error as Error).message,
-      500,
-      "Something went wrong"
-    );
+    const errorObject = error as Error;
+
+    let message = "Something went wrong with the user creation";
+
+    if (errorObject.message.includes("duplicate key error")) {
+      message = "Database error: duplicate key";
+    }
+
+    const customError = new CustomError(errorObject.message, 500, message);
+
     next(customError);
   }
 };
