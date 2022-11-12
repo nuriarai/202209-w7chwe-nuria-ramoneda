@@ -1,8 +1,8 @@
 import type { NextFunction, Request, Response } from "express";
 import bcrypt from "bcrypt";
-import type { RegisterData } from "../../types";
-import User from "../../../database/models/User";
-import CustomError from "../../../CustomError/CustomError";
+import type { RegisterData } from "../../types.js";
+import User from "../../../database/models/User.js";
+import CustomError from "../../../CustomError/CustomError.js";
 
 export const registerUser = async (
   req: Request,
@@ -20,7 +20,7 @@ export const registerUser = async (
       email,
       picture,
     });
-
+    console.log("abans res");
     res
       .status(201)
       .json({ user: { id: newUser._id, username, email, picture } });
