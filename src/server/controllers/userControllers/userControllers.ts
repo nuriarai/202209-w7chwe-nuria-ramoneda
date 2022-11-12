@@ -20,7 +20,7 @@ export const registerUser = async (
       email,
       picture,
     });
-    console.log("abans res");
+
     res
       .status(201)
       .json({ user: { id: newUser._id, username, email, picture } });
