@@ -51,7 +51,7 @@ describe("Given a registerUser controller", () => {
       const expectedError = new Error(expectedMessage);
 
       req.body = user;
-      const userId = new mongoose.Types.ObjectId();
+
       bcrypt.hash = jest.fn().mockResolvedValue(user.password);
       User.create = jest.fn().mockRejectedValue(expectedError);
 
