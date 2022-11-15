@@ -1,8 +1,9 @@
 import mongoose from "mongoose";
 import bcrypt from "bcrypt";
+import Jwt from "jsonwebtoken";
 import type { NextFunction, Request, Response } from "express";
 import User from "../../../database/models/User.js";
-import { registerUser } from "./userControllers";
+import { loginUser, registerUser } from "./userControllers";
 
 const req: Partial<Request> = {};
 const res: Partial<Response> = {
@@ -59,6 +60,35 @@ describe("Given a registerUser controller", () => {
 
       expect(res.status).toHaveBeenLastCalledWith(expectedStatus);
       expect(next).toHaveBeenCalledWith(expectedError);
+    });
+  });
+});
+
+describe("Given a loginUser controller", () => {
+  describe("When it receives a request with a username 'admin' ", () => {
+    test("Then it should invoke status method with 200 code", async () => {
+      const user = {
+        username: "admin",
+        password: "adminadmin",
+      };
+      req.body = user;
+      const expectedStatus = 200;
+      const expectedResponse = { accessToken: "token" };
+
+      User.findOne = jest.fn().mockResolvedValue({
+        username: user.username,
+        password: "passwordhassed",
+        _id: new mongoose.Types.ObjectId(),
+      });
+
+      bcrypt.compare = jest.fn().mockResolvedValue(true);
+
+      Jwt.sign = jest.fn().mockReturnValue("token");
+
+      await loginUser(req as Request, res as Response, next as NextFunction);
+
+      expect(res.status).toHaveBeenCalledWith(expectedStatus);
+      expect(res.json).toHaveBeenCalledWith(expectedResponse);
     });
   });
 });
