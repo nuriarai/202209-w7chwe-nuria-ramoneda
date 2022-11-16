@@ -82,7 +82,7 @@ export const loginUser = async (
       expiresIn: "2d",
     });
 
-    res.status(200).json({ accessToken: token });
+    res.status(200).json({ token });
   } catch (error: unknown) {
     const customError = new CustomError(
       (error as Error).message,
